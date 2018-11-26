@@ -5,4 +5,8 @@
 
 .parent {
   display: flex;
+  justify-content: space-between;
+}
+.child {
+  margin-left: 1em;
 }

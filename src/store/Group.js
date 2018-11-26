@@ -2,6 +2,7 @@ import { observable, computed, action } from "mobx";
 
 class Group {
   @observable groups = [];
+  @observable taskName = "";
 
   @computed get nextId() {
     return this.groups.length + 1;
@@ -9,18 +10,23 @@ class Group {
 
   constructor() {
     //サンプルデータ
-    push(this.groups, 1, "group 1", true, 1, false);
-    push(this.groups, 2, "group 2", false, 1, false);
-    push(this.groups, 3, "group 3", false, 1, false);
+    push(this.groups, 1, "task 1", true, 1, true);
+    push(this.groups, 2, "group 2", false, 1, true);
+    push(this.groups, 3, "group 3", false, 1, true);
+  }
+
+  @action.bound
+  addTaskName(taskName) {
+    this.taskName = taskName;
   }
 
   /**
    * 親要素追加処理
    */
   @action.bound
-  addGroup() {
+  addTask() {
     const id = this.nextId;
-    push(this.groups, id, `group ${id}`, true, id, true);
+    push(this.groups, id, this.taskName, true, id, true);
   }
 
   /**

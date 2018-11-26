@@ -52,12 +52,12 @@ class App extends Component {
         </div>
       );
     } else {
-      return <div>{group.title}</div>;
+      return <div className="child">{group.title}</div>;
     }
   };
 
   render() {
-    const { groups, addGroup } = this.props.groupStore;
+    const { groups, addTask, addTaskName } = this.props.groupStore;
     const newGroups = groups
       .filter(group => {
         return group.parent || group.show;
@@ -69,16 +69,19 @@ class App extends Component {
     return (
       <div className="App">
         <div>
-          <button onClick={addGroup}>addGroup</button>
+          <input type="text" onChange={e => addTaskName(e.target.value)} />
+          <button onClick={addTask}>addTask</button>
         </div>
         Rendered by react!
         <Timeline
           groups={newGroups}
           items={items}
           groupRenderer={this.groupRenderer}
-          sidebarContent="SideBar"
-          defaultTimeStart={moment().add(-12, "hour")}
-          defaultTimeEnd={moment().add(12, "hour")}
+          sidebarContent="Tasks"
+          defaultTimeStart={moment().add(-7, "day")}
+          defaultTimeEnd={moment().add(7, "day")}
+          minZoom={1000 * 60 * 60 * 24 * 12}
+          maxZoom={1000 * 60 * 60 * 24 * 12}
         />
       </div>
     );
