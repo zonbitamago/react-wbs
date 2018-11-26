@@ -1,4 +1,5 @@
 import Group from "./Group";
+import { ROW_TYPES } from "../util/Constants";
 
 let store;
 beforeEach(() => {
@@ -7,96 +8,163 @@ beforeEach(() => {
 
 describe("nextId", () => {
   it("init", () => {
-    expect(store.nextId).toBe(4);
+    expect(store.nextId).toBe(8);
   });
 
   it("add groups", () => {
     store.groups.push({});
 
-    expect(store.nextId).toBe(5);
+    expect(store.nextId).toBe(9);
   });
 });
 
 describe("addTask", function() {
   it("addTask", () => {
-    store.addTaskName("task 4");
+    store.addTaskName("task 8");
     store.addTask();
-    const group = store.groups[3];
-    expect(group.id).toBe(4);
-    expect(group.title).toBe("task 4");
+
+    const group = store.groups[7];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(8);
+    expect(group.title).toBe("task 8");
     expect(group.parent).toBe(true);
-    expect(group.parentId).toBe(4);
+    expect(group.parentId).toBe(8);
     expect(group.show).toBe(true);
+    expect(group.type).toBe(ROW_TYPES.TASK);
   });
 });
 
 describe("addChild", function() {
   it("show", () => {
-    store.addChild(3, true);
-    const group = store.groups[3];
-    expect(group.id).toBe(4);
-    expect(group.title).toBe("group 4");
+    store.addChild(1, true);
+
+    let group = store.groups[7];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(8);
+    expect(group.title).toBe("group 8");
     expect(group.parent).toBe(false);
-    expect(group.parentId).toBe(3);
+    expect(group.parentId).toBe(1);
     expect(group.show).toBe(true);
+    expect(group.type).toBe(ROW_TYPES.PLAN_TIME);
+
+    group = store.groups[8];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(9);
+    expect(group.title).toBe("");
+    expect(group.parent).toBe(false);
+    expect(group.parentId).toBe(1);
+    expect(group.show).toBe(true);
+    expect(group.type).toBe(ROW_TYPES.RESULT_TIME);
+
+    group = store.groups[9];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(10);
+    expect(group.title).toBe("");
+    expect(group.parent).toBe(false);
+    expect(group.parentId).toBe(1);
+    expect(group.show).toBe(true);
+    expect(group.type).toBe(ROW_TYPES.RESULT_RATE);
   });
 
   it("hide", () => {
-    store.addChild(2, false);
-    const group = store.groups[3];
-    expect(group.id).toBe(4);
-    expect(group.title).toBe("group 4");
+    store.addChild(1, false);
+
+    let group = store.groups[7];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(8);
+    expect(group.title).toBe("group 8");
     expect(group.parent).toBe(false);
-    expect(group.parentId).toBe(2);
+    expect(group.parentId).toBe(1);
     expect(group.show).toBe(false);
+    expect(group.type).toBe(ROW_TYPES.PLAN_TIME);
+
+    group = store.groups[8];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(9);
+    expect(group.title).toBe("");
+    expect(group.parent).toBe(false);
+    expect(group.parentId).toBe(1);
+    expect(group.show).toBe(false);
+    expect(group.type).toBe(ROW_TYPES.RESULT_TIME);
+
+    group = store.groups[9];
+    expect(Object.keys(group).length).toBe(6);
+    expect(group.id).toBe(10);
+    expect(group.title).toBe("");
+    expect(group.parent).toBe(false);
+    expect(group.parentId).toBe(1);
+    expect(group.show).toBe(false);
+    expect(group.type).toBe(ROW_TYPES.RESULT_RATE);
   });
 });
 
 describe("changeShowHide", function() {
   it("show", () => {
     store.addTask();
-    store.addChild(4, false);
+    store.addChild(8, false);
 
-    store.changeShowHide(4);
+    store.changeShowHide(8);
 
-    expect(store.groups[0].parentId).toBe(1);
-    expect(store.groups[0].show).toBe(true);
+    //初期値確認
+    for (let i = 0; i < 7; i++) {
+      expect(store.groups[i].parentId).toBe(1);
+      expect(store.groups[i].show).toBe(true);
+    }
 
-    expect(store.groups[1].parentId).toBe(1);
-    expect(store.groups[1].show).toBe(true);
+    //以下が表示/非表示切り替え対象
+    expect(store.groups[7].parent).toBe(true);
+    expect(store.groups[7].parentId).toBe(8);
+    expect(store.groups[7].show).toBe(false);
+    expect(store.groups[7].type).toBe(ROW_TYPES.TASK);
 
-    expect(store.groups[2].parentId).toBe(1);
-    expect(store.groups[2].show).toBe(true);
+    expect(store.groups[8].parent).toBe(false);
+    expect(store.groups[8].parentId).toBe(8);
+    expect(store.groups[8].show).toBe(true);
+    expect(store.groups[8].type).toBe(ROW_TYPES.PLAN_TIME);
 
-    //以下2つが表示/非表示切り替え対象
-    expect(store.groups[3].parentId).toBe(4);
-    expect(store.groups[3].show).toBe(false);
+    expect(store.groups[9].parent).toBe(false);
+    expect(store.groups[9].parentId).toBe(8);
+    expect(store.groups[9].show).toBe(true);
+    expect(store.groups[9].type).toBe(ROW_TYPES.RESULT_TIME);
 
-    expect(store.groups[4].parentId).toBe(4);
-    expect(store.groups[4].show).toBe(true);
+    expect(store.groups[10].parent).toBe(false);
+    expect(store.groups[10].parentId).toBe(8);
+    expect(store.groups[10].show).toBe(true);
+    expect(store.groups[10].type).toBe(ROW_TYPES.RESULT_RATE);
   });
 
   it("hide", () => {
     store.addTask();
-    store.addChild(4, true);
+    store.addChild(8, true);
 
-    store.changeShowHide(4);
+    store.changeShowHide(8);
 
-    expect(store.groups[0].parentId).toBe(1);
-    expect(store.groups[0].show).toBe(true);
+    //初期値確認
+    for (let i = 0; i < 7; i++) {
+      expect(store.groups[i].parentId).toBe(1);
+      expect(store.groups[i].show).toBe(true);
+    }
 
-    expect(store.groups[1].parentId).toBe(1);
-    expect(store.groups[1].show).toBe(true);
+    //以下が表示/非表示切り替え対象
+    expect(store.groups[7].parent).toBe(true);
+    expect(store.groups[7].parentId).toBe(8);
+    expect(store.groups[7].show).toBe(false);
+    expect(store.groups[7].type).toBe(ROW_TYPES.TASK);
 
-    expect(store.groups[2].parentId).toBe(1);
-    expect(store.groups[2].show).toBe(true);
+    expect(store.groups[8].parent).toBe(false);
+    expect(store.groups[8].parentId).toBe(8);
+    expect(store.groups[8].show).toBe(false);
+    expect(store.groups[8].type).toBe(ROW_TYPES.PLAN_TIME);
 
-    //以下2つが表示/非表示切り替え対象
-    expect(store.groups[3].parentId).toBe(4);
-    expect(store.groups[3].show).toBe(false);
+    expect(store.groups[9].parent).toBe(false);
+    expect(store.groups[9].parentId).toBe(8);
+    expect(store.groups[9].show).toBe(false);
+    expect(store.groups[9].type).toBe(ROW_TYPES.RESULT_TIME);
 
-    expect(store.groups[4].parentId).toBe(4);
-    expect(store.groups[4].show).toBe(false);
+    expect(store.groups[10].parent).toBe(false);
+    expect(store.groups[10].parentId).toBe(8);
+    expect(store.groups[10].show).toBe(false);
+    expect(store.groups[10].type).toBe(ROW_TYPES.RESULT_RATE);
   });
 });
 
