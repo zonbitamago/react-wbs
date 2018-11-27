@@ -37,7 +37,7 @@ class App extends Component {
     this.groupRenderer = this.groupRenderer.bind(this);
   }
   groupRenderer = ({ group }) => {
-    const { addChild, changeShowHide } = this.props.groupStore;
+    const { addChild, changeShowHide, removeChild } = this.props.groupStore;
     if (group.parent) {
       const showMark = group.show ? "[-]" : "[+]";
       return (
@@ -52,7 +52,14 @@ class App extends Component {
         </div>
       );
     } else {
-      return <div className="child">{group.title}</div>;
+      return (
+        <div className="child">
+          <div>{group.title}</div>
+          <button onClick={removeChild.bind(this, group.sameGroupId)}>
+            removeChild
+          </button>
+        </div>
+      );
     }
   };
 
@@ -78,6 +85,7 @@ class App extends Component {
           items={items}
           groupRenderer={this.groupRenderer}
           sidebarContent="Tasks"
+          sidebarWidth={200}
           defaultTimeStart={moment().add(-7, "day")}
           defaultTimeEnd={moment().add(7, "day")}
           minZoom={1000 * 60 * 60 * 24 * 12}

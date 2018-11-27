@@ -6,20 +6,21 @@ class Group {
   @observable taskName = "";
 
   @computed get nextId() {
-    return this.groups.length + 1;
+    // return this.groups.length + 1;
+    return Math.max(...this.groups.map(group => group.id)) + 1;
   }
 
   constructor() {
     //サンプルデータ
-    push(this.groups, 1, "task 1", true, 1, true, ROW_TYPES.TASK);
+    push(this.groups, 1, "task 1", true, 1, true, ROW_TYPES.TASK, 1);
 
-    push(this.groups, 2, "group 2", false, 1, true, ROW_TYPES.PLAN_TIME);
-    push(this.groups, 3, "", false, 1, true, ROW_TYPES.RESULT_TIME);
-    push(this.groups, 4, "", false, 1, true, ROW_TYPES.RESULT_RATE);
+    push(this.groups, 2, "group 2", false, 1, true, ROW_TYPES.PLAN_TIME, 2);
+    push(this.groups, 3, "", false, 1, true, ROW_TYPES.RESULT_TIME, 2);
+    push(this.groups, 4, "", false, 1, true, ROW_TYPES.RESULT_RATE, 2);
 
-    push(this.groups, 5, "group 3", false, 1, true, ROW_TYPES.PLAN_TIME);
-    push(this.groups, 6, "", false, 1, true, ROW_TYPES.RESULT_TIME);
-    push(this.groups, 7, "", false, 1, true, ROW_TYPES.RESULT_RATE);
+    push(this.groups, 5, "group 3", false, 1, true, ROW_TYPES.PLAN_TIME, 5);
+    push(this.groups, 6, "", false, 1, true, ROW_TYPES.RESULT_TIME, 5);
+    push(this.groups, 7, "", false, 1, true, ROW_TYPES.RESULT_RATE, 5);
   }
 
   @action.bound
@@ -33,7 +34,7 @@ class Group {
   @action.bound
   addTask() {
     const id = this.nextId;
-    push(this.groups, id, this.taskName, true, id, true, ROW_TYPES.TASK);
+    push(this.groups, id, this.taskName, true, id, true, ROW_TYPES.TASK, id);
   }
 
   /**
@@ -44,14 +45,42 @@ class Group {
   @action.bound
   addChild(parentId, show) {
     let id = this.nextId;
+    const sameGroupId = this.nextId;
     const title = `group ${id}`;
-    push(this.groups, id, title, false, parentId, show, ROW_TYPES.PLAN_TIME);
+    push(
+      this.groups,
+      id,
+      title,
+      false,
+      parentId,
+      show,
+      ROW_TYPES.PLAN_TIME,
+      sameGroupId
+    );
 
     id = this.nextId;
-    push(this.groups, id, "", false, parentId, show, ROW_TYPES.RESULT_TIME);
+    push(
+      this.groups,
+      id,
+      "",
+      false,
+      parentId,
+      show,
+      ROW_TYPES.RESULT_TIME,
+      sameGroupId
+    );
 
     id = this.nextId;
-    push(this.groups, id, "", false, parentId, show, ROW_TYPES.RESULT_RATE);
+    push(
+      this.groups,
+      id,
+      "",
+      false,
+      parentId,
+      show,
+      ROW_TYPES.RESULT_RATE,
+      sameGroupId
+    );
   }
 
   @action.bound
@@ -60,6 +89,13 @@ class Group {
       if (group.parentId === parentId) {
         group.show = !group.show;
       }
+    });
+  }
+
+  @action.bound
+  removeChild(sameGroupId) {
+    this.groups = this.groups.filter(group => {
+      return group.sameGroupId !== sameGroupId;
     });
   }
 }
@@ -75,15 +111,18 @@ class Group {
  * @param {Number} parentId
  * @param {Boolean} show true:表示 false:非表示
  * @param {String} type Constants.ROW_TYPE
+ * @param {Number} sameGroupId
  */
-const push = (groups, id, title, parent, parentId, show, type) => {
+const push = (groups, id, title, parent, parentId, show, type, sameGroupId) => {
   groups.push({
     id: id,
     title: title,
     parent: parent,
     parentId: parentId,
     show: show,
-    type: type
+    type: type,
+    sameGroupId: sameGroupId
   });
 };
+
 export default Group;

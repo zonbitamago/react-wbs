@@ -12,7 +12,7 @@ describe("nextId", () => {
   });
 
   it("add groups", () => {
-    store.groups.push({});
+    store.addTask();
 
     expect(store.nextId).toBe(9);
   });
@@ -24,13 +24,14 @@ describe("addTask", function() {
     store.addTask();
 
     const group = store.groups[7];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(8);
     expect(group.title).toBe("task 8");
     expect(group.parent).toBe(true);
     expect(group.parentId).toBe(8);
     expect(group.show).toBe(true);
     expect(group.type).toBe(ROW_TYPES.TASK);
+    expect(group.sameGroupId).toBe(8);
   });
 });
 
@@ -39,62 +40,68 @@ describe("addChild", function() {
     store.addChild(1, true);
 
     let group = store.groups[7];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(8);
     expect(group.title).toBe("group 8");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(true);
     expect(group.type).toBe(ROW_TYPES.PLAN_TIME);
+    expect(group.sameGroupId).toBe(8);
 
     group = store.groups[8];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(9);
     expect(group.title).toBe("");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(true);
     expect(group.type).toBe(ROW_TYPES.RESULT_TIME);
+    expect(group.sameGroupId).toBe(8);
 
     group = store.groups[9];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(10);
     expect(group.title).toBe("");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(true);
     expect(group.type).toBe(ROW_TYPES.RESULT_RATE);
+    expect(group.sameGroupId).toBe(8);
   });
 
   it("hide", () => {
     store.addChild(1, false);
 
     let group = store.groups[7];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(8);
     expect(group.title).toBe("group 8");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(false);
     expect(group.type).toBe(ROW_TYPES.PLAN_TIME);
+    expect(group.sameGroupId).toBe(8);
 
     group = store.groups[8];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(9);
     expect(group.title).toBe("");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(false);
     expect(group.type).toBe(ROW_TYPES.RESULT_TIME);
+    expect(group.sameGroupId).toBe(8);
 
     group = store.groups[9];
-    expect(Object.keys(group).length).toBe(6);
+    expect(Object.keys(group).length).toBe(7);
     expect(group.id).toBe(10);
     expect(group.title).toBe("");
     expect(group.parent).toBe(false);
     expect(group.parentId).toBe(1);
     expect(group.show).toBe(false);
     expect(group.type).toBe(ROW_TYPES.RESULT_RATE);
+    expect(group.sameGroupId).toBe(8);
   });
 });
 
@@ -177,5 +184,14 @@ describe("addTaskName", function() {
 
     store.addTaskName("b");
     expect(store.taskName).toBe("b");
+  });
+});
+
+describe("removeChild", function() {
+  it("removeChild", () => {
+    store.removeChild(2);
+
+    expect(store.groups.length).toBe(4);
+    expect(store.groups[1].id).toBe(5);
   });
 });
