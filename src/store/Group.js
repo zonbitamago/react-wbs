@@ -7,7 +7,12 @@ class Group {
 
   @computed get nextId() {
     // return this.groups.length + 1;
-    return Math.max(...this.groups.map(group => group.id)) + 1;
+    const nowId =
+      this.groups.length === 0
+        ? 0
+        : Math.max(...this.groups.map(group => group.id));
+
+    return nowId + 1;
   }
 
   constructor() {
@@ -96,6 +101,13 @@ class Group {
   removeChild(sameGroupId) {
     this.groups = this.groups.filter(group => {
       return group.sameGroupId !== sameGroupId;
+    });
+  }
+
+  @action.bound
+  removeTask(parentId) {
+    this.groups = this.groups.filter(group => {
+      return group.parentId !== parentId;
     });
   }
 }

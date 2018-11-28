@@ -15,6 +15,9 @@ describe("nextId", () => {
     store.addTask();
 
     expect(store.nextId).toBe(9);
+
+    store.groups = [];
+    expect(store.nextId).toBe(1);
   });
 });
 
@@ -193,5 +196,17 @@ describe("removeChild", function() {
 
     expect(store.groups.length).toBe(4);
     expect(store.groups[1].id).toBe(5);
+  });
+});
+
+describe("removeTask", function() {
+  it("removeTask", () => {
+    store.addTaskName("test");
+    store.addTask();
+    store.removeTask(1);
+
+    const group = store.groups[0];
+    expect(store.groups.length).toBe(1);
+    expect(group.title).toBe("test");
   });
 });

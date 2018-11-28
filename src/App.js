@@ -37,7 +37,12 @@ class App extends Component {
     this.groupRenderer = this.groupRenderer.bind(this);
   }
   groupRenderer = ({ group }) => {
-    const { addChild, changeShowHide, removeChild } = this.props.groupStore;
+    const {
+      addChild,
+      changeShowHide,
+      removeChild,
+      removeTask
+    } = this.props.groupStore;
     if (group.parent) {
       const showMark = group.show ? "[-]" : "[+]";
       return (
@@ -46,18 +51,25 @@ class App extends Component {
             {showMark}
             {group.title}
           </div>
-          <button onClick={addChild.bind(this, group.parentId, group.show)}>
-            addChild
-          </button>
+          <div>
+            <button onClick={addChild.bind(this, group.parentId, group.show)}>
+              addChild
+            </button>
+            <button onClick={removeTask.bind(this, group.parentId)}>
+              removeTask
+            </button>
+          </div>
         </div>
       );
     } else {
       return (
         <div className="child">
           <div>{group.title}</div>
-          <button onClick={removeChild.bind(this, group.sameGroupId)}>
-            removeChild
-          </button>
+          <div>
+            <button onClick={removeChild.bind(this, group.sameGroupId)}>
+              removeChild
+            </button>
+          </div>
         </div>
       );
     }
