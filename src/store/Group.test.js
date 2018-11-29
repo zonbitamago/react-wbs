@@ -210,3 +210,14 @@ describe("removeTask", function() {
     expect(group.title).toBe("test");
   });
 });
+
+describe("changeTitle", function() {
+  it("changeTitle", () => {
+    expect(store.groups[0].title).toBe("task 1");
+    expect(store.groups[1].title).toBe("group 2");
+
+    store.changeTitle(1, "changed Title");
+    expect(store.groups[0].title).toBe("changed Title");
+    expect(store.groups[1].title).toBe("group 2");
+  });
+});

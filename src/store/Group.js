@@ -110,6 +110,16 @@ class Group {
       return group.parentId !== parentId;
     });
   }
+
+  @action.bound
+  changeTitle(id, title) {
+    this.groups = this.groups.map(group => {
+      if (group.id === id) {
+        group.title = title;
+      }
+      return group;
+    });
+  }
 }
 
 /**
