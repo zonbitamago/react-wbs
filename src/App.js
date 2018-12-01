@@ -5,6 +5,7 @@ import Timeline from "react-calendar-timeline";
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { observer } from "mobx-react";
+import Title from "./Title";
 
 let items = [
   // {
@@ -41,7 +42,8 @@ class App extends Component {
       addChild,
       changeShowHide,
       removeChild,
-      removeTask
+      removeTask,
+      changeTitle
     } = this.props.groupStore;
     if (group.parent) {
       const showMark = group.show ? "-" : "+";
@@ -53,7 +55,7 @@ class App extends Component {
           >
             {showMark}
           </div>
-          <div>{group.title}</div>
+          <Title id={group.id} title={group.title} changeTitle={changeTitle} />
           <div>
             <button onClick={addChild.bind(this, group.parentId, group.show)}>
               addChild
@@ -67,7 +69,7 @@ class App extends Component {
     } else {
       return (
         <div className="child">
-          <div>{group.title}</div>
+          <Title id={group.id} title={group.title} changeTitle={changeTitle} />
           <div>
             <button onClick={removeChild.bind(this, group.sameGroupId)}>
               removeChild
@@ -100,7 +102,7 @@ class App extends Component {
           items={items}
           groupRenderer={this.groupRenderer}
           sidebarContent="Tasks"
-          sidebarWidth={250}
+          sidebarWidth={300}
           defaultTimeStart={moment().add(-7, "day")}
           defaultTimeEnd={moment().add(7, "day")}
           minZoom={1000 * 60 * 60 * 24 * 12}
