@@ -44,13 +44,16 @@ class App extends Component {
       removeTask
     } = this.props.groupStore;
     if (group.parent) {
-      const showMark = group.show ? "[-]" : "[+]";
+      const showMark = group.show ? "-" : "+";
       return (
         <div className="parent">
-          <div onClick={changeShowHide.bind(this, group.parentId)}>
+          <div
+            className="btn_circle"
+            onClick={changeShowHide.bind(this, group.parentId)}
+          >
             {showMark}
-            {group.title}
           </div>
+          <div>{group.title}</div>
           <div>
             <button onClick={addChild.bind(this, group.parentId, group.show)}>
               addChild
@@ -97,7 +100,7 @@ class App extends Component {
           items={items}
           groupRenderer={this.groupRenderer}
           sidebarContent="Tasks"
-          sidebarWidth={200}
+          sidebarWidth={250}
           defaultTimeStart={moment().add(-7, "day")}
           defaultTimeEnd={moment().add(7, "day")}
           minZoom={1000 * 60 * 60 * 24 * 12}
