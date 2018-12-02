@@ -18,6 +18,10 @@
   margin-left: 1em;
 }
 
+.child * {
+  margin: 2.5px !important;
+}
+
 .btn_circle {
   display: inline-block;
   text-decoration: none;
