@@ -7,28 +7,37 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import Title from "./Title";
 
+// let items = [
+// {
+//   id: 1,
+//   group: 1,
+//   title: 'item 1',
+//   start_time: moment(),
+//   end_time: moment().add(1, 'hour')
+// },
+// {
+//   id: 2,
+//   group: 2,
+//   title: 'item 2',
+//   start_time: moment().add(-0.5, 'hour'),
+//   end_time: moment().add(0.5, 'hour')
+// },
+// {
+//   id: 3,
+//   group: 1,
+//   title: 'item 3',
+//   start_time: moment().add(2, 'hour'),
+//   end_time: moment().add(3, 'hour')
+// }
+// ];
 let items = [
-  // {
-  //   id: 1,
-  //   group: 1,
-  //   title: 'item 1',
-  //   start_time: moment(),
-  //   end_time: moment().add(1, 'hour')
-  // },
-  // {
-  //   id: 2,
-  //   group: 2,
-  //   title: 'item 2',
-  //   start_time: moment().add(-0.5, 'hour'),
-  //   end_time: moment().add(0.5, 'hour')
-  // },
-  // {
-  //   id: 3,
-  //   group: 1,
-  //   title: 'item 3',
-  //   start_time: moment().add(2, 'hour'),
-  //   end_time: moment().add(3, 'hour')
-  // }
+  {
+    id: 1,
+    group: 2,
+    title: "item1",
+    start_time: moment({ h: 0, m: 0, s: 0, ms: 0 }),
+    end_time: moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day")
+  }
 ];
 
 @observer
@@ -107,6 +116,7 @@ class App extends Component {
           defaultTimeEnd={moment().add(7, "day")}
           minZoom={1000 * 60 * 60 * 24 * 12}
           maxZoom={1000 * 60 * 60 * 24 * 12}
+          onCanvasClick={(groupId,time,e)=>{console.log(groupId,time,e)}}
         />
       </div>
     );
