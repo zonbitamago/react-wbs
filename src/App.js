@@ -6,13 +6,49 @@ import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { observer } from "mobx-react";
 import Title from "./Title";
+import Modal from "react-modal";
+
+const customStyles = {
+  // overlay: {
+  //   backgroundColor: 'papayawhip'
+  // },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)"
+  }
+};
 
 @observer
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalIsOpen: false
+    };
+
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.groupRenderer = this.groupRenderer.bind(this);
   }
+
+  openModal() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = "#f00";
+  }
+
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
+
   groupRenderer = ({ group }) => {
     const {
       addChild,
@@ -85,8 +121,21 @@ class App extends Component {
           maxZoom={1000 * 60 * 60 * 24 * 12}
           onCanvasClick={(groupId, time, e) => {
             console.log(groupId, time, e);
+            this.openModal();
           }}
         />
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Add Item"
+        >
+          <h2 ref={subtitle => (this.subtitle = subtitle)}>Add Item</h2>
+          {/* <div>I am a modal</div> */}
+          <input />
+          <button onClick={this.closeModal}>add</button>
+        </Modal>
       </div>
     );
   }
