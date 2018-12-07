@@ -7,12 +7,20 @@ class Group {
   @observable taskName = "";
   @observable items = [];
 
-  @computed get nextId() {
-    // return this.groups.length + 1;
+  @computed get nextGroupId() {
     const nowId =
       this.groups.length === 0
         ? 0
         : Math.max(...this.groups.map(group => group.id));
+
+    return nowId + 1;
+  }
+
+  @computed get nextItemId() {
+    const nowId =
+      this.items.length === 0
+        ? 0
+        : Math.max(...this.items.map(item => item.id));
 
     return nowId + 1;
   }
@@ -67,7 +75,7 @@ class Group {
    */
   @action.bound
   addTask() {
-    const id = this.nextId;
+    const id = this.nextGroupId;
     pushGroups(
       this.groups,
       id,
@@ -87,8 +95,8 @@ class Group {
    */
   @action.bound
   addChild(parentId, show) {
-    let id = this.nextId;
-    const sameGroupId = this.nextId;
+    let id = this.nextGroupId;
+    const sameGroupId = this.nextGroupId;
     const title = `group ${id}`;
     pushGroups(
       this.groups,
@@ -101,7 +109,7 @@ class Group {
       sameGroupId
     );
 
-    id = this.nextId;
+    id = this.nextGroupId;
     pushGroups(
       this.groups,
       id,
@@ -113,7 +121,7 @@ class Group {
       sameGroupId
     );
 
-    id = this.nextId;
+    id = this.nextGroupId;
     pushGroups(
       this.groups,
       id,
@@ -157,6 +165,43 @@ class Group {
       }
       return group;
     });
+  }
+
+  /**
+   *
+   * @param {Number} group 追加対象group
+   * @param {String} title 画面表示文言
+   * @param {Number} time ミリ秒
+   */
+  @action.bound
+  addItems(group, title, time) {
+    const id = this.nextItemId;
+    const day = new Date(time);
+
+    pushItems(
+      this.items,
+      id,
+      group,
+      title,
+      moment({
+        y: day.getFullYear(),
+        M: day.getMonth(),
+        d: day.getDate(),
+        h: 0,
+        m: 0,
+        s: 0,
+        ms: 0
+      }),
+      moment({
+        y: day.getFullYear(),
+        M: day.getMonth(),
+        d: day.getDate(),
+        h: 0,
+        m: 0,
+        s: 0,
+        ms: 0
+      }).add(1, "day")
+    );
   }
 }
 

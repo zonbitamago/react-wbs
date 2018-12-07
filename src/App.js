@@ -9,9 +9,9 @@ import Title from "./Title";
 import Modal from "react-modal";
 
 const customStyles = {
-  // overlay: {
-  //   backgroundColor: 'papayawhip'
-  // },
+  overlay: {
+    zIndex: 100
+  },
   content: {
     top: "50%",
     left: "50%",

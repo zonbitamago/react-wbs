@@ -6,18 +6,18 @@ beforeEach(() => {
   store = new Group();
 });
 
-describe("nextId", () => {
+describe("nextGroupId", () => {
   it("init", () => {
-    expect(store.nextId).toBe(8);
+    expect(store.nextGroupId).toBe(8);
   });
 
   it("add groups", () => {
     store.addTask();
 
-    expect(store.nextId).toBe(9);
+    expect(store.nextGroupId).toBe(9);
 
     store.groups = [];
-    expect(store.nextId).toBe(1);
+    expect(store.nextGroupId).toBe(1);
   });
 });
 
@@ -219,5 +219,24 @@ describe("changeTitle", function() {
     store.changeTitle(1, "changed Title");
     expect(store.groups[0].title).toBe("changed Title");
     expect(store.groups[1].title).toBe("group 2");
+  });
+});
+
+describe("nextItemId", function() {
+  it("init", () => {
+    expect(store.nextItemId).toBe(2);
+  });
+});
+
+describe("addItems", function() {
+  it("addItem", () => {
+    expect(store.items.length).toBe(1);
+
+    store.addItems(3, "test", 1544064300000);
+    expect(store.items.length).toBe(2);
+    const item = store.items[1];
+    expect(item.title).toBe("test");
+    expect(item.start_time.format()).toBe("2018-12-06T00:00:00+09:00");
+    expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
   });
 });
