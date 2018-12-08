@@ -22,22 +22,30 @@ const customStyles = {
   }
 };
 
+Modal.setAppElement("#root");
 @observer
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      modalGroupId: "",
+      modalTime: 0
     };
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.groupRenderer = this.groupRenderer.bind(this);
+    this.addItems = this.addItems.bind(this);
   }
 
-  openModal() {
-    this.setState({ modalIsOpen: true });
+  openModal(groupId, time) {
+    this.setState({
+      modalIsOpen: true,
+      modalGroupId: groupId,
+      modalTime: time
+    });
   }
 
   afterOpenModal() {
@@ -47,6 +55,11 @@ class App extends Component {
 
   closeModal() {
     this.setState({ modalIsOpen: false });
+  }
+  addItems() {
+    const { addItems } = this.props.groupStore;
+    addItems(this.state.modalGroupId, this.state.modalTime);
+    this.closeModal();
   }
 
   groupRenderer = ({ group }) => {
@@ -93,7 +106,13 @@ class App extends Component {
   };
 
   render() {
-    const { groups, addTask, addTaskName, items } = this.props.groupStore;
+    const {
+      groups,
+      addTask,
+      addTaskName,
+      items,
+      addItemName
+    } = this.props.groupStore;
     const newGroups = groups
       .filter(group => {
         return group.parent || group.show;
@@ -120,8 +139,7 @@ class App extends Component {
           minZoom={1000 * 60 * 60 * 24 * 12}
           maxZoom={1000 * 60 * 60 * 24 * 12}
           onCanvasClick={(groupId, time, e) => {
-            console.log(groupId, time, e);
-            this.openModal();
+            this.openModal(groupId, time);
           }}
         />
         <Modal
@@ -133,8 +151,8 @@ class App extends Component {
         >
           <h2 ref={subtitle => (this.subtitle = subtitle)}>Add Item</h2>
           {/* <div>I am a modal</div> */}
-          <input />
-          <button onClick={this.closeModal}>add</button>
+          <input type="text" onChange={e => addItemName(e.target.value)} />
+          <button onClick={this.addItems}>add</button>
         </Modal>
       </div>
     );

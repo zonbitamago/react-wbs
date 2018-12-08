@@ -232,11 +232,24 @@ describe("addItems", function() {
   it("addItem", () => {
     expect(store.items.length).toBe(1);
 
-    store.addItems(3, "test", 1544064300000);
+    store.addItemName("test");
+    store.addItems(3, 1544064300000);
     expect(store.items.length).toBe(2);
     const item = store.items[1];
     expect(item.title).toBe("test");
     expect(item.start_time.format()).toBe("2018-12-06T00:00:00+09:00");
     expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
+  });
+});
+
+describe("addItemName", function() {
+  it("addItemName", () => {
+    expect(store.itemName).toBe("");
+
+    store.addItemName("a");
+    expect(store.itemName).toBe("a");
+
+    store.addItemName("b");
+    expect(store.itemName).toBe("b");
   });
 });

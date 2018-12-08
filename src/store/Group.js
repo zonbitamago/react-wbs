@@ -6,6 +6,7 @@ class Group {
   @observable groups = [];
   @observable taskName = "";
   @observable items = [];
+  @observable itemName = "";
 
   @computed get nextGroupId() {
     const nowId =
@@ -174,7 +175,7 @@ class Group {
    * @param {Number} time ミリ秒
    */
   @action.bound
-  addItems(group, title, time) {
+  addItems(group, time) {
     const id = this.nextItemId;
     const day = new Date(time);
 
@@ -182,7 +183,7 @@ class Group {
       this.items,
       id,
       group,
-      title,
+      this.itemName,
       moment({
         y: day.getFullYear(),
         M: day.getMonth(),
@@ -202,6 +203,11 @@ class Group {
         ms: 0
       }).add(1, "day")
     );
+  }
+
+  @action.bound
+  addItemName(itemName) {
+    this.itemName = itemName;
   }
 }
 
