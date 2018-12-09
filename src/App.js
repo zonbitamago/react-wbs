@@ -7,6 +7,7 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import Title from "./Title";
 import Modal from "react-modal";
+import { ROW_TYPES } from "./util/Constants";
 
 const customStyles = {
   overlay: {
@@ -41,6 +42,14 @@ class App extends Component {
   }
 
   openModal(groupId, time) {
+    const group = this.props.groupStore.groups.filter(node => {
+      return node.id === groupId;
+    });
+
+    if (group[0].type === ROW_TYPES.TASK) {
+      return;
+    }
+
     this.setState({
       modalIsOpen: true,
       modalGroupId: groupId,
