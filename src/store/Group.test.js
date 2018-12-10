@@ -232,11 +232,11 @@ describe("addItems", function() {
   it("addItem", () => {
     expect(store.items.length).toBe(1);
 
-    store.addItemName("test");
+    store.addItemName(6.5);
     store.addItems(3, 1544064300000);
     expect(store.items.length).toBe(2);
     const item = store.items[1];
-    expect(item.title).toBe("test");
+    expect(item.title).toBe(6.5);
     expect(item.start_time.format()).toBe("2018-12-06T00:00:00+09:00");
     expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
   });
@@ -246,10 +246,19 @@ describe("addItemName", function() {
   it("addItemName", () => {
     expect(store.itemName).toBe("");
 
+    store.addItemName(7.5);
+    expect(store.itemName).toBe(7.5);
+    expect(store.hasItemNameError).toBe(false);
+    expect(store.itemNameErrorMessage).toBe("");
+
     store.addItemName("a");
     expect(store.itemName).toBe("a");
+    expect(store.hasItemNameError).toBe(true);
+    expect(store.itemNameErrorMessage).toBe("数値を入力してください。");
 
-    store.addItemName("b");
-    expect(store.itemName).toBe("b");
+    store.addItemName("");
+    expect(store.itemName).toBe("");
+    expect(store.hasItemNameError).toBe(false);
+    expect(store.itemNameErrorMessage).toBe("");
   });
 });

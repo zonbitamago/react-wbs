@@ -7,6 +7,9 @@ class Group {
   @observable taskName = "";
   @observable items = [];
   @observable itemName = "";
+  // 入力値チェック
+  @observable hasItemNameError = false;
+  @observable itemNameErrorMessage = "";
 
   @computed get nextGroupId() {
     const nowId =
@@ -60,7 +63,7 @@ class Group {
       this.items,
       1,
       2,
-      "item1",
+      7.5,
       moment({ h: 0, m: 0, s: 0, ms: 0 }),
       moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day")
     );
@@ -208,6 +211,13 @@ class Group {
   @action.bound
   addItemName(itemName) {
     this.itemName = itemName;
+    if (isNaN(this.itemName)) {
+      this.hasItemNameError = true;
+      this.itemNameErrorMessage = "数値を入力してください。";
+    } else {
+      this.hasItemNameError = false;
+      this.itemNameErrorMessage = "";
+    }
   }
 }
 
