@@ -46,14 +46,17 @@ class App extends Component {
       return node.id === groupId;
     });
 
-    if (group[0].type === ROW_TYPES.TASK) {
+    const task = group[0].type;
+
+    if (task === ROW_TYPES.TASK) {
       return;
     }
 
     this.setState({
       modalIsOpen: true,
       modalGroupId: groupId,
-      modalTime: time
+      modalTime: time,
+      modalTask: task
     });
   }
 
@@ -67,7 +70,12 @@ class App extends Component {
   }
   addItems() {
     const { addItems } = this.props.groupStore;
-    addItems(this.state.modalGroupId, this.state.modalTime);
+    addItems(
+      this.state.modalGroupId,
+      this.state.modalTime,
+      this.state.modalTask
+    );
+
     this.closeModal();
   }
 
@@ -120,7 +128,9 @@ class App extends Component {
       addTask,
       addTaskName,
       items,
-      addItemName
+      addItemName,
+      planTimes,
+      resultTimes
     } = this.props.groupStore;
     const newGroups = groups
       .filter(group => {
@@ -136,6 +146,8 @@ class App extends Component {
           <input type="text" onChange={e => addTaskName(e.target.value)} />
           <button onClick={addTask}>addTask</button>
         </div>
+        <p>PLAN_TIMES: {planTimes}h</p>
+        <p>RESULT_TIMES: {resultTimes}h</p>
         Rendered by react!
         <Timeline
           groups={newGroups}

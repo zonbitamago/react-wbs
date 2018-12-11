@@ -29,6 +29,20 @@ class Group {
     return nowId + 1;
   }
 
+  @computed get planTimes() {
+    return this.items.reduce((sum, node) => {
+      return (sum +=
+        node.task === ROW_TYPES.PLAN_TIME ? Number(node.title) : 0);
+    }, 0);
+  }
+
+  @computed get resultTimes() {
+    return this.items.reduce((sum, node) => {
+      return (sum +=
+        node.task === ROW_TYPES.RESULT_TIME ? Number(node.title) : 0);
+    }, 0);
+  }
+
   constructor() {
     //サンプルデータ
     pushGroups(this.groups, 1, "task 1", true, 1, true, ROW_TYPES.TASK, 1);
@@ -65,7 +79,8 @@ class Group {
       2,
       7.5,
       moment({ h: 0, m: 0, s: 0, ms: 0 }),
-      moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day")
+      moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day"),
+      ROW_TYPES.PLAN_TIME
     );
   }
 
@@ -178,7 +193,7 @@ class Group {
    * @param {Number} time ミリ秒
    */
   @action.bound
-  addItems(group, time) {
+  addItems(group, time, task) {
     const id = this.nextItemId;
     const day = new Date(time);
 
@@ -204,7 +219,8 @@ class Group {
         m: 0,
         s: 0,
         ms: 0
-      }).add(1, "day")
+      }).add(1, "day"),
+      task
     );
   }
 
@@ -255,13 +271,14 @@ const pushGroups = (
   });
 };
 
-const pushItems = (items, id, group, title, start_time, end_time) => {
+const pushItems = (items, id, group, title, start_time, end_time, task) => {
   items.push({
     id: id,
     group: group,
     title: title,
     start_time: start_time,
-    end_time: end_time
+    end_time: end_time,
+    task: task
   });
 };
 

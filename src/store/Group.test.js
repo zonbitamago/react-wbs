@@ -233,12 +233,13 @@ describe("addItems", function() {
     expect(store.items.length).toBe(1);
 
     store.addItemName(6.5);
-    store.addItems(3, 1544064300000);
+    store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
     expect(store.items.length).toBe(2);
     const item = store.items[1];
     expect(item.title).toBe(6.5);
     expect(item.start_time.format()).toBe("2018-12-06T00:00:00+09:00");
     expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
+    expect(item.task).toBe(ROW_TYPES.PLAN_TIME);
   });
 });
 
@@ -260,5 +261,43 @@ describe("addItemName", function() {
     expect(store.itemName).toBe("");
     expect(store.hasItemNameError).toBe(false);
     expect(store.itemNameErrorMessage).toBe("");
+  });
+});
+
+describe("planTimes", function() {
+  it("planTimes", () => {
+    //テストのため、初期値クリア
+    store.items = [];
+
+    store.addItemName(7);
+    store.addItems(1, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.planTimes).toBe(7);
+
+    store.addItemName(6);
+    store.addItems(2, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.planTimes).toBe(13);
+
+    store.addItemName(6);
+    store.addItems(3, 1544064300000, ROW_TYPES.RESULT_TIME);
+    expect(store.planTimes).toBe(13);
+  });
+});
+
+describe("resultTimes", function() {
+  it("resultTimes", () => {
+    //テストのため、初期値クリア
+    store.items = [];
+
+    store.addItemName(7);
+    store.addItems(1, 1544064300000, ROW_TYPES.RESULT_TIME);
+    expect(store.resultTimes).toBe(7);
+
+    store.addItemName(6);
+    store.addItems(2, 1544064300000, ROW_TYPES.RESULT_TIME);
+    expect(store.resultTimes).toBe(13);
+
+    store.addItemName(6);
+    store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.resultTimes).toBe(13);
   });
 });
