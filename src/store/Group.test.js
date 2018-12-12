@@ -241,6 +241,14 @@ describe("addItems", function() {
     expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
     expect(item.task).toBe(ROW_TYPES.PLAN_TIME);
   });
+
+  it("valid error", () => {
+    expect(store.items.length).toBe(1);
+
+    store.addItemName("a");
+    store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.items.length).toBe(1);
+  });
 });
 
 describe("addItemName", function() {

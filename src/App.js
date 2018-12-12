@@ -66,7 +66,10 @@ class App extends Component {
   }
 
   closeModal() {
+    const { addItemName } = this.props.groupStore;
     this.setState({ modalIsOpen: false });
+    // 初期値リセット
+    addItemName("");
   }
   addItems() {
     const { addItems } = this.props.groupStore;
@@ -130,7 +133,8 @@ class App extends Component {
       items,
       addItemName,
       planTimes,
-      resultTimes
+      resultTimes,
+      itemNameErrorMessage
     } = this.props.groupStore;
     const newGroups = groups
       .filter(group => {
@@ -148,7 +152,6 @@ class App extends Component {
         </div>
         <p>PLAN_TIMES: {planTimes}h</p>
         <p>RESULT_TIMES: {resultTimes}h</p>
-        Rendered by react!
         <Timeline
           groups={newGroups}
           items={items}
@@ -171,7 +174,7 @@ class App extends Component {
           contentLabel="Add Item"
         >
           <h2 ref={subtitle => (this.subtitle = subtitle)}>Add Item</h2>
-          {/* <div>I am a modal</div> */}
+          <p class="error">{itemNameErrorMessage}</p>
           <input type="text" onChange={e => addItemName(e.target.value)} />
           <button onClick={this.addItems}>add</button>
         </Modal>

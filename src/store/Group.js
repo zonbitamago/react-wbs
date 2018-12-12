@@ -194,6 +194,9 @@ class Group {
    */
   @action.bound
   addItems(group, time, task) {
+    if (isNaN(this.itemName)) {
+      return;
+    }
     const id = this.nextItemId;
     const day = new Date(time);
 

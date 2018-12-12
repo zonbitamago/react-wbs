@@ -41,3 +41,7 @@
 .btn_circle:hover {
   background: #b3e1ff;
 }
+
+.error {
+  color: red;
+}
