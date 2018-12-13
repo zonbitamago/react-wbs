@@ -165,6 +165,7 @@ class App extends Component {
           onCanvasClick={(groupId, time, e) => {
             this.openModal(groupId, time);
           }}
+          horizontalLineClassNamesForGroup={group => [`row-${group.type}`]}
         />
         <Modal
           isOpen={this.state.modalIsOpen}

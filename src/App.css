@@ -45,3 +45,19 @@
 .error {
   color: red;
 }
+
+.row-TASK {
+  background-color: #9e9e9e !important;
+}
+
+.row-PLAN_TIMES {
+  background-color: #ff00e08c !important;
+}
+
+.row-RESULT_TIMES {
+  background-color: #004eff8c !important;
+}
+
+.row-RESULT_RATE {
+  background-color: #ffe0008c !important;
+}
