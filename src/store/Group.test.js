@@ -224,18 +224,18 @@ describe("changeTitle", function() {
 
 describe("nextItemId", function() {
   it("init", () => {
-    expect(store.nextItemId).toBe(2);
+    expect(store.nextItemId).toBe(4);
   });
 });
 
 describe("addItems", function() {
   it("addItem", () => {
-    expect(store.items.length).toBe(1);
+    expect(store.items.length).toBe(3);
 
     store.addItemName(6.5);
-    store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
-    expect(store.items.length).toBe(2);
-    const item = store.items[1];
+    store.addItems(4, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.items.length).toBe(4);
+    const item = store.items[3];
     expect(item.title).toBe(6.5);
     expect(item.start_time.format()).toBe("2018-12-06T00:00:00+09:00");
     expect(item.end_time.format()).toBe("2018-12-07T00:00:00+09:00");
@@ -243,11 +243,11 @@ describe("addItems", function() {
   });
 
   it("valid error", () => {
-    expect(store.items.length).toBe(1);
+    expect(store.items.length).toBe(3);
 
     store.addItemName("a");
-    store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
-    expect(store.items.length).toBe(1);
+    store.addItems(4, 1544064300000, ROW_TYPES.PLAN_TIME);
+    expect(store.items.length).toBe(3);
   });
 });
 

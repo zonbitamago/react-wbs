@@ -44,7 +44,8 @@ class Group {
   }
 
   constructor() {
-    //サンプルデータ
+    // サンプルデータ
+    // グループ
     pushGroups(this.groups, 1, "task 1", true, 1, true, ROW_TYPES.TASK, 1);
 
     pushGroups(
@@ -73,6 +74,7 @@ class Group {
     pushGroups(this.groups, 6, "", false, 1, true, ROW_TYPES.RESULT_TIME, 5);
     pushGroups(this.groups, 7, "", false, 1, true, ROW_TYPES.RESULT_RATE, 5);
 
+    // アイテム
     pushItems(
       this.items,
       1,
@@ -81,6 +83,26 @@ class Group {
       moment({ h: 0, m: 0, s: 0, ms: 0 }),
       moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day"),
       ROW_TYPES.PLAN_TIME
+    );
+
+    pushItems(
+      this.items,
+      2,
+      3,
+      6,
+      moment({ h: 0, m: 0, s: 0, ms: 0 }),
+      moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day"),
+      ROW_TYPES.RESULT_TIME
+    );
+
+    pushItems(
+      this.items,
+      3,
+      4,
+      95,
+      moment({ h: 0, m: 0, s: 0, ms: 0 }),
+      moment({ h: 0, m: 0, s: 0, ms: 0 }).add(1, "day"),
+      ROW_TYPES.RESULT_RATE
     );
   }
 

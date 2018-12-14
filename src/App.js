@@ -37,6 +37,7 @@ class App extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.itemRenderer = this.itemRenderer.bind(this);
     this.groupRenderer = this.groupRenderer.bind(this);
     this.addItems = this.addItems.bind(this);
   }
@@ -81,6 +82,24 @@ class App extends Component {
 
     this.closeModal();
   }
+
+  itemRenderer = ({ item, itemContext, getItemProps, getResizeProps }) => {
+    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
+    return (
+      <div {...getItemProps({ className: `item-${item.task}` })}>
+        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
+
+        <div
+          className="rct-item-content"
+          style={{ maxHeight: `${itemContext.dimensions.height}` }}
+        >
+          {itemContext.title}
+        </div>
+
+        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
+      </div>
+    );
+  };
 
   groupRenderer = ({ group }) => {
     const {
@@ -155,6 +174,7 @@ class App extends Component {
         <Timeline
           groups={newGroups}
           items={items}
+          itemRenderer={this.itemRenderer}
           groupRenderer={this.groupRenderer}
           sidebarContent="Tasks"
           sidebarWidth={300}
