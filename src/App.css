@@ -46,9 +46,14 @@
   color: red;
 }
 
-/* .row-TASK {
-  background-color: #9e9e9e !important;
-} */
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row {
+  padding: 0 !important;
+}
+
+.row-TASK,
+.parent {
+  background-color: #ff9800a1 !important;
+}
 
 /* .row-PLAN_TIMES {
   background-color: #ff00e08c !important;
