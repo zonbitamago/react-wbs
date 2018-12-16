@@ -300,7 +300,7 @@ const pushItems = (items, id, group, title, start_time, end_time, task) => {
   items.push({
     id: id,
     group: group,
-    title: title,
+    title: Number(title),
     start_time: start_time,
     end_time: end_time,
     task: task
