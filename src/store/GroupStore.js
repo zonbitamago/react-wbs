@@ -2,7 +2,7 @@ import { observable, computed, action } from "mobx";
 import { ROW_TYPES } from "../util/Constants";
 import moment from "moment";
 
-class Group {
+class GroupStore {
   @observable groups = [];
   @observable taskName = "";
   @observable items = [];
@@ -307,4 +307,4 @@ const pushItems = (items, id, group, title, start_time, end_time, task) => {
   });
 };
 
-export default Group;
+export default GroupStore;

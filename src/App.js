@@ -4,9 +4,10 @@ import Timeline from "react-calendar-timeline";
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { observer } from "mobx-react";
-import Title from "./components/Title";
 import Modal from "react-modal";
 import AddTaskModal from "./components/AddTaskModal";
+import Item from "./components/Item";
+import Group from "./components/Group";
 
 Modal.setAppElement("#root");
 @observer
@@ -14,76 +15,11 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    // ITEMがRESULT_RATEの場合にrender()が動かないことに対しての、暫定対応
     this.state = { flag: true };
-
-    this.itemRenderer = this.itemRenderer.bind(this);
-    this.groupRenderer = this.groupRenderer.bind(this);
   }
 
-  itemRenderer = ({ item, itemContext, getItemProps, getResizeProps }) => {
-    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    return (
-      <div {...getItemProps({ className: `item-${item.task}` })}>
-        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
-
-        <div
-          className="rct-item-content"
-          style={{ maxHeight: `${itemContext.dimensions.height}` }}
-        >
-          {itemContext.title}
-        </div>
-
-        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
-      </div>
-    );
-  };
-
-  groupRenderer = ({ group }) => {
-    const {
-      addChild,
-      changeShowHide,
-      removeChild,
-      removeTask,
-      changeTitle
-    } = this.props.store.groupStore;
-    if (group.parent) {
-      const showMark = group.show ? "-" : "+";
-      return (
-        <div className="parent">
-          <div
-            className="btn_circle"
-            onClick={changeShowHide.bind(this, group.parentId)}
-          >
-            {showMark}
-          </div>
-          <Title id={group.id} title={group.title} changeTitle={changeTitle} />
-          <div>
-            <button onClick={addChild.bind(this, group.parentId, group.show)}>
-              addChild
-            </button>
-            <button onClick={removeTask.bind(this, group.parentId)}>
-              removeTask
-            </button>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="child">
-          <Title id={group.id} title={group.title} changeTitle={changeTitle} />
-          <div>
-            <button onClick={removeChild.bind(this, group.sameGroupId)}>
-              removeChild
-            </button>
-          </div>
-        </div>
-      );
-    }
-  };
-
   render() {
-    console.log("render");
-
     const {
       groups,
       addTask,
@@ -113,8 +49,11 @@ class App extends Component {
         <Timeline
           groups={newGroups}
           items={items}
-          itemRenderer={this.itemRenderer}
-          groupRenderer={this.groupRenderer}
+          itemRenderer={Item}
+          // groupRenderer={this.groupRenderer}
+          groupRenderer={({ group }) =>
+            Group(group, this.props.store.groupStore)
+          }
           sidebarContent="Tasks"
           sidebarWidth={300}
           defaultTimeStart={moment().add(-7, "day")}

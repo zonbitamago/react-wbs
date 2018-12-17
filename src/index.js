@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import Group from "./store/Group";
-import Modal from "./store/Modal";
+import GroupStore from "./store/GroupStore";
+import ModalStore from "./store/ModalStore";
 
-const store = { groupStore: new Group(), modalStore: new Modal() };
+const store = { groupStore: new GroupStore(), modalStore: new ModalStore() };
 
 ReactDOM.render(<App store={store} />, document.getElementById("root"));
 

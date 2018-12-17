@@ -1,9 +1,9 @@
-import Group from "./Group";
+import GroupStore from "./GroupStore";
 import { ROW_TYPES } from "../util/Constants";
 
 let store;
 beforeEach(() => {
-  store = new Group();
+  store = new GroupStore();
 });
 
 describe("nextGroupId", () => {

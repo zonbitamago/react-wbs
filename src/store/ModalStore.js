@@ -1,7 +1,7 @@
 import { observable, action } from "mobx";
 import { ROW_TYPES } from "../util/Constants";
 
-class Modal {
+class ModalStore {
   @observable modalIsOpen = false;
   @observable modalGroupId = "";
   @observable modalTime = 0;
@@ -47,4 +47,4 @@ class Modal {
   }
 }
 
-export default Modal;
+export default ModalStore;

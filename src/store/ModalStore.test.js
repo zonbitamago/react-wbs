@@ -1,9 +1,9 @@
-import Modal from "./Modal";
+import ModalStore from "./ModalStore";
 import { ROW_TYPES } from "../util/Constants";
 
 let store;
 beforeEach(() => {
-  store = new Modal();
+  store = new ModalStore();
 });
 
 describe("init", function() {
