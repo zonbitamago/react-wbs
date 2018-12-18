@@ -260,6 +260,13 @@ class GroupStore {
       this.itemNameErrorMessage = "";
     }
   }
+
+  @action.bound
+  removeItems(id) {
+    this.items = this.items.filter(node => {
+      return node.id !== id;
+    });
+  }
 }
 
 /**

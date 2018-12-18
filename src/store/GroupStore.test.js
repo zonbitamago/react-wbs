@@ -7,11 +7,11 @@ beforeEach(() => {
 });
 
 describe("nextGroupId", () => {
-  it("init", () => {
+  it("init", async () => {
     expect(store.nextGroupId).toBe(8);
   });
 
-  it("add groups", () => {
+  it("add groups", async () => {
     store.addTask();
 
     expect(store.nextGroupId).toBe(9);
@@ -22,7 +22,7 @@ describe("nextGroupId", () => {
 });
 
 describe("addTask", function() {
-  it("addTask", () => {
+  it("addTask", async () => {
     store.addTaskName("task 8");
     store.addTask();
 
@@ -39,7 +39,7 @@ describe("addTask", function() {
 });
 
 describe("addChild", function() {
-  it("show", () => {
+  it("show", async () => {
     store.addChild(1, true);
 
     let group = store.groups[7];
@@ -73,7 +73,7 @@ describe("addChild", function() {
     expect(group.sameGroupId).toBe(8);
   });
 
-  it("hide", () => {
+  it("hide", async () => {
     store.addChild(1, false);
 
     let group = store.groups[7];
@@ -109,7 +109,7 @@ describe("addChild", function() {
 });
 
 describe("changeShowHide", function() {
-  it("show", () => {
+  it("show", async () => {
     store.addTask();
     store.addChild(8, false);
 
@@ -143,7 +143,7 @@ describe("changeShowHide", function() {
     expect(store.groups[10].type).toBe(ROW_TYPES.RESULT_RATE);
   });
 
-  it("hide", () => {
+  it("hide", async () => {
     store.addTask();
     store.addChild(8, true);
 
@@ -179,7 +179,7 @@ describe("changeShowHide", function() {
 });
 
 describe("addTaskName", function() {
-  it("addTaskName", () => {
+  it("addTaskName", async () => {
     expect(store.taskName).toBe("");
 
     store.addTaskName("a");
@@ -191,7 +191,7 @@ describe("addTaskName", function() {
 });
 
 describe("removeChild", function() {
-  it("removeChild", () => {
+  it("removeChild", async () => {
     store.removeChild(2);
 
     expect(store.groups.length).toBe(4);
@@ -200,7 +200,7 @@ describe("removeChild", function() {
 });
 
 describe("removeTask", function() {
-  it("removeTask", () => {
+  it("removeTask", async () => {
     store.addTaskName("test");
     store.addTask();
     store.removeTask(1);
@@ -212,7 +212,7 @@ describe("removeTask", function() {
 });
 
 describe("changeTitle", function() {
-  it("changeTitle", () => {
+  it("changeTitle", async () => {
     expect(store.groups[0].title).toBe("task 1");
     expect(store.groups[1].title).toBe("group 2");
 
@@ -223,13 +223,13 @@ describe("changeTitle", function() {
 });
 
 describe("nextItemId", function() {
-  it("init", () => {
+  it("init", async () => {
     expect(store.nextItemId).toBe(4);
   });
 });
 
 describe("addItems", function() {
-  it("addItem", () => {
+  it("addItem", async () => {
     expect(store.items.length).toBe(3);
 
     store.addItemName(6.5);
@@ -242,7 +242,7 @@ describe("addItems", function() {
     expect(item.task).toBe(ROW_TYPES.PLAN_TIME);
   });
 
-  it("valid error", () => {
+  it("valid error", async () => {
     expect(store.items.length).toBe(3);
 
     store.addItemName("a");
@@ -252,7 +252,7 @@ describe("addItems", function() {
 });
 
 describe("addItemName", function() {
-  it("addItemName", () => {
+  it("addItemName", async () => {
     expect(store.itemName).toBe("");
 
     store.addItemName(7.5);
@@ -273,7 +273,7 @@ describe("addItemName", function() {
 });
 
 describe("planTimes", function() {
-  it("planTimes", () => {
+  it("planTimes", async () => {
     //テストのため、初期値クリア
     store.items = [];
 
@@ -292,7 +292,7 @@ describe("planTimes", function() {
 });
 
 describe("resultTimes", function() {
-  it("resultTimes", () => {
+  it("resultTimes", async () => {
     //テストのため、初期値クリア
     store.items = [];
 
@@ -307,5 +307,27 @@ describe("resultTimes", function() {
     store.addItemName(6);
     store.addItems(3, 1544064300000, ROW_TYPES.PLAN_TIME);
     expect(store.resultTimes).toBe(13);
+  });
+});
+
+describe("removeItems", function() {
+  it("removeItems", async () => {
+    expect(store.items.length).toBe(3);
+
+    store.removeItems(2);
+    expect(store.items.length).toBe(2);
+    expect(
+      store.items.some(node => {
+        return node.id === 2;
+      })
+    ).toBe(false);
+
+    store.removeItems(1);
+    expect(store.items.length).toBe(1);
+    expect(
+      store.items.some(node => {
+        return node.id === 1;
+      })
+    ).toBe(false);
   });
 });
