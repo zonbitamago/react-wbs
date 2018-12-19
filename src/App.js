@@ -50,7 +50,6 @@ class App extends Component {
           groups={newGroups}
           items={items}
           itemRenderer={Item}
-          // groupRenderer={this.groupRenderer}
           groupRenderer={({ group }) =>
             Group(group, this.props.store.groupStore)
           }

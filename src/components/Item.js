@@ -1,4 +1,5 @@
 import React from "react";
+import "./Item.css";
 export default function Item({
   item,
   itemContext,
@@ -14,7 +15,8 @@ export default function Item({
         className="rct-item-content"
         style={{ maxHeight: `${itemContext.dimensions.height}` }}
       >
-        {itemContext.title}
+        <div>{itemContext.title}</div>
+        <div className="close">×</div>
       </div>
 
       {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}

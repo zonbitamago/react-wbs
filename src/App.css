@@ -66,22 +66,3 @@
 /* .row-RESULT_RATE {
   background-color: #ffe0008c !important;
 } */
-
-.rct-item {
-  color: black !important;
-}
-
-.item-PLAN_TIMES {
-  background-color: #ffe0008c !important;
-  border-color: #ffe0008c !important;
-}
-
-.item-RESULT_TIMES {
-  background-color: #004eff57 !important;
-  border-color: #004eff57 !important;
-}
-
-.item-RESULT_RATE {
-  background-color: #ff00e08c !important;
-  border-color: #ff00e08c !important;
-}
