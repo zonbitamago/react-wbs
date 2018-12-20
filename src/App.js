@@ -49,7 +49,18 @@ class App extends Component {
         <Timeline
           groups={newGroups}
           items={items}
-          itemRenderer={Item}
+          // itemRenderer={Item}
+          itemRenderer={({
+            item,
+            itemContext,
+            getItemProps,
+            getResizeProps
+          }) => {
+            return Item(
+              { item, itemContext, getItemProps, getResizeProps },
+              this.props.store.groupStore
+            );
+          }}
           groupRenderer={({ group }) =>
             Group(group, this.props.store.groupStore)
           }
